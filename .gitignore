@@ -1,0 +1,57 @@
+# Bytecode fajlovi
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualna okruženja
+venv/
+.env/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# VS Code konfiguracija
+.vscode/
+
+# Cache i log fajlovi
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Test output
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+nosetests.xml
+test-results/
+.pytest_cache/
+
+# Paketovanje
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# pipenv / poetry / pip-tools
+Pipfile.lock
+poetry.lock
+*.lock
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# mypy, pyright, pylint
+.mypy_cache/
+.pyright/
+.pyre/
+.pytype/
+

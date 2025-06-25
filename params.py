@@ -1,0 +1,9 @@
+""" Define algorithm parameters here """
+
+GENERATION_SIZE = 300
+POPULATION_SIZE = 500
+FILE_NAME = "data_tsp.txt"
+MUTATION_CHANCE = 0.035
+CROSSOVER_SIZE = 5
+ELITISM_SIZE = 3
+UNIT_MAX_AGE = 8
