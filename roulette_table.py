@@ -1,34 +1,34 @@
-from unit import Unit
+from chromosome import Chromosome
 import random
 
 
 class RouletteTable:
-    """ Rank based roulette selection of parent units """
-    def __init__(self, units:list[Unit]):
-        self.units = units
+    """ Rank based roulette selection of parent Chromosomes """
+    def __init__(self, chromosomes:list[Chromosome]):
+        self.chromosomes = chromosomes
     
-    def get_parents(self) -> list[Unit]:
+    def get_parents(self) -> list[Chromosome]:
         """ Form list of parents that are used for making children for next generation """
-        n = len(self.units)
+        n = len(self.chromosomes)
         parents = list()
         ranks = self._calculate_ranks()
         
-        # take two best ranked units for each iteration
-        # which makes total of n units for new generation
+        # take two best ranked chromosomes for each iteration
+        # which makes total of n chromosomes for new generation
         for _ in range(n//2):
             scores = [ranks[i]*self._rand() for i in range(n)]
             i1, i2 = self._find_two_best_scores(scores)
-            parents.append(self.units[i1])
-            parents.append(self.units[i2])
+            parents.append(self.chromosomes[i1])
+            parents.append(self.chromosomes[i2])
 
         return parents
         
     def _calculate_ranks(self):
         """ 
-        Rank each unit based on his fitness value
-        Index of rank is linked to index of unit 
+        Rank each Chromosome based on his fitness value
+        Index of rank is linked to index of Chromosome 
         """
-        indices = sorted(range(len(self.units)), key=lambda i: self.units[i].calc_fitness())
+        indices = sorted(range(len(self.chromosomes)), key=lambda i: self.chromosomes[i].calc_fitness())
         ranks = [0] * len(indices)
         for rank, i in enumerate(indices):
             ranks[i] = len(indices) - rank

@@ -8,4 +8,5 @@ if __name__ == '__main__':
     for _ in range(GENERATION_SIZE):
         population = Population(population.get_next_population())
         gen += 1
-        print("generation:", gen, "fitness:", population.get_best_unit().calc_fitness())
+        print("generation:", gen, "fitness:", population.get_best_chromosome().calc_fitness())
+    

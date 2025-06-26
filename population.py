@@ -1,15 +1,16 @@
 
-from unit import *
+from chromosome import *
 from roulette_table import RouletteTable
+
 
 class Population:
 
-    def __init__(self, units: list):
-        self.units = units
+    def __init__(self, chromosomes: list):
+        self.chromosomes = chromosomes
 
-    def get_next_population(self) -> list[Unit]:
-        """ Choose units for next generation with rank based roulette selection """
-        roulette = RouletteTable(self.units)
+    def get_next_population(self) -> list[Chromosome]:
+        """ Choose Chromosomes for next generation with rank based roulette selection """
+        roulette = RouletteTable(self.chromosomes)
         parents = roulette.get_parents()
 
         children = self._crossover(parents)
@@ -17,11 +18,11 @@ class Population:
 
         return self._select_population(parents, children)
     
-    def get_best_unit(self):
-        return min(self.units, key=lambda unit: unit.calc_fitness())
+    def get_best_chromosome(self):
+        return min(self.chromosomes, key=lambda chromosome: chromosome.calc_fitness())
 
-    def _crossover(self, parents:list[Unit]) -> list:
-        """ Crossover parent units to get children """
+    def _crossover(self, parents:list[Chromosome]) -> list:
+        """ Crossover parent Chromosomes to get children """
         children = list()
         for i in range(len(parents) - 1):
             p1, p2 = parents[i], parents[i+1] # pick parents in pairs
@@ -41,34 +42,34 @@ class Population:
                 if p2.genes[i] not in pcg1:
                     c1_genes.append(p2.genes[i])
             
-            children.append(Unit(c1_genes))
-            children.append(Unit(c2_genes))
+            children.append(Chromosome(c1_genes))
+            children.append(Chromosome(c2_genes))
 
         return children
             
-    def _mutate_children(self, children:list[Unit]):
+    def _mutate_children(self, children:list[Chromosome]):
         for child in children:
             child.mutate()
 
-    def _select_population(self, parents:list[Unit], children:list[Unit]) -> list[Unit]:
+    def _select_population(self, parents:list[Chromosome], children:list[Chromosome]) -> list[Chromosome]:
         parents.extend(children)
         total_population = parents
-        total_population_sorted = sorted(total_population, key=lambda unit: unit.calc_fitness())
+        total_population_sorted = sorted(total_population, key=lambda Chromosome: Chromosome.calc_fitness())
         rest_index = 0 # pick elite_count of elites and then continue from rest_index to pick children
         new_population = []
-        elite_count = ELITISM_SIZE
+        elite_count = int(ELITISM_RATE * POPULATION_SIZE)
         while elite_count > 0:
-            unit = total_population_sorted[rest_index]
-            if unit.age < UNIT_MAX_AGE:
-                unit.age += 1
-                new_population.append(unit)
+            Chromosome = total_population_sorted[rest_index]
+            if Chromosome.age < CHROMOSOME_MAX_AGE:
+                Chromosome.age += 1
+                new_population.append(Chromosome)
                 elite_count -= 1
             rest_index += 1
         for i in range(rest_index, len(total_population)):
-            unit = total_population_sorted[i]
-            if unit.is_child() and len(new_population) < POPULATION_SIZE:
-                unit.age += 1
-                new_population.append(unit)
+            Chromosome = total_population_sorted[i]
+            if Chromosome.is_child() and len(new_population) < POPULATION_SIZE:
+                Chromosome.age += 1
+                new_population.append(Chromosome)
 
         assert(len(new_population) == POPULATION_SIZE)
         return new_population
@@ -81,7 +82,8 @@ def get_starting_population() -> Population:
         for line in file.readlines():
             line_split = line.split(' ')
             id, x, y = int(line_split[0]), float(line_split[1]), float(line_split[2])
-            genes.append(Gene(id, x, y))
+            CITIES[id] = (x, y)
+            genes.append(id)
         
-    units = [get_random_unit(genes) for _ in range(POPULATION_SIZE)]
-    return Population(units)
+    chromosomes = [get_random_chromosome(genes) for _ in range(POPULATION_SIZE)]
+    return Population(chromosomes)
