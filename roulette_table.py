@@ -26,7 +26,7 @@ class RouletteTable:
     def _calculate_ranks(self):
         """ 
         Rank each Chromosome based on his fitness value
-        Index of rank is linked to index of Chromosome 
+        Index of rank is linked to index of chromosome 
         """
         indices = sorted(range(len(self.chromosomes)), key=lambda i: self.chromosomes[i].calc_fitness())
         ranks = [0] * len(indices)
