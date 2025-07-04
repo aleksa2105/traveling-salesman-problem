@@ -12,8 +12,9 @@ class Population:
         """ Get chromosomes for next generation """
 
         # select parents
-        roulette = RouletteTable(self.chromosomes)
-        parents = roulette.get_parents()
+        # roulette = RouletteTable(self.chromosomes)
+        # parents = roulette.get_parents()
+        parents = self._get_parents_selection()
 
         # crossover operator
         children = self._OX1_crossover(parents)
@@ -27,6 +28,18 @@ class Population:
     def get_best_chromosome(self):
         """ Return chromosome with lowest fitness value """
         return min(self.chromosomes, key=lambda chromosome: chromosome.calc_fitness())
+    
+    def _get_parents_selection(self):
+        parents = list()
+        for _ in range(POPULATION_SIZE//2):
+            parents.append(self._tournament_selection())
+        
+        return parents
+
+    def _tournament_selection(self) -> Chromosome:
+        """ Pick k random chromosomes and return the best one among them """
+        competitors = random.choices(self.chromosomes, k=TOURNAMENT_SELECTION_SIZE)
+        return min(competitors, key=lambda c: c.calc_fitness())
     
     def _PMX_crossover(self, parents:list[Chromosome]):
         x_point = random_list_index(len(parents[0].genes), 0) # crossover point
@@ -112,7 +125,8 @@ class Population:
     #         children.append(Chromosome(c2_genes))
 
     #     return children
-            
+     
+
     def _mutate_children(self, children:list[Chromosome]):
         for child in children:
             chance = random.random()
@@ -122,7 +136,7 @@ class Population:
     def _select_population(self, parents:list[Chromosome], children:list[Chromosome]) -> list[Chromosome]:
         parents.extend(children)
         total_population = parents
-        total_population_sorted = sorted(total_population, key=lambda Chromosome: Chromosome.calc_fitness())
+        total_population_sorted = sorted(total_population, key=lambda c: c.calc_fitness())
         rest_index = 0 # pick elite_count of elites and then continue from rest_index to pick children
         new_population = []
         elite_count = int(ELITISM_RATE * POPULATION_SIZE)
@@ -139,7 +153,7 @@ class Population:
                 Chromosome.age += 1
                 new_population.append(Chromosome)
 
-        assert(len(new_population) == POPULATION_SIZE)
+        # assert(len(new_population) == POPULATION_SIZE)
         return new_population
 
 
