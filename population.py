@@ -13,7 +13,7 @@ class Population:
         # select parents
         parents = TournamentSelection.select(self.chromosomes)
         # crossover operator
-        children = OX1_crossover(self.chromosomes)
+        children = OX1_crossover(parents)
         # mutate children
         self._mutate_children(children)
         # select next population and return it
