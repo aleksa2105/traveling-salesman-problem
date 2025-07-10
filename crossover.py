@@ -14,8 +14,8 @@ def PMX_crossover(parents:list):
                 p1_map[p1.genes[j]] = j
                 p2_map[p2.genes[j]] = j
 
-            c1 = deepcopy(p1.genes)
-            c2 = deepcopy(p2.genes)
+            c1 = list(p1.genes)
+            c2 = list(p2.genes)
 
             for k in range(x_point):
                 # create first offspring
@@ -25,8 +25,8 @@ def PMX_crossover(parents:list):
                 if p1.genes[k] != c2[k]:
                     c2[k], c2[p2_map[p1.genes[k]]] = c2[p2_map[p1.genes[k]]], c2[k]
 
-            children.append(Chromosome(c1))
-            children.append(Chromosome(c2))
+            children.append(Chromosome(c1, calc_fitness=False))
+            children.append(Chromosome(c2, calc_fitness=False))
 
         return children
     
@@ -39,7 +39,7 @@ def OX1_crossover(parents:list) -> list:
             off1, off2 = [0] * num_genes, [0] * num_genes
             pcg1, pcg2 = set(), set() # parent crossover genes
 
-            point1, point2 = sorted(sample(range(num_genes), 2)) # crossover points for subtour
+            point1, point2 = sorted(sample(range(num_genes), 2)) # point1 < point2
 
             for i in range(point1, point2): # fill subtour in offsprings
                 off1[i] = p1.genes[i]
@@ -58,34 +58,8 @@ def OX1_crossover(parents:list) -> list:
                     off2[cur_off_pos2] = p1.genes[cur_idx]
                     cur_off_pos2 = (cur_off_pos2 + 1) % num_genes
 
-            children.append(Chromosome(off1))
-            children.append(Chromosome(off2))
+            children.append(Chromosome(off1, calc_fitness=False))
+            children.append(Chromosome(off2, calc_fitness=False))
 
 
         return children
-
-
-# my version of crossover (it sucks)
-# def _crossover(self, parents:list[Chromosome]) -> list:
-#     """ Crossover parent Chromosomes to get children """
-#     children = list()
-#     for i in range(len(parents) - 1):
-#         p1, p2 = parents[i], parents[i+1] # pick parents in pairs
-#         c1_genes, c2_genes = list(), list()
-#         pcg1, pcg2 = set(), set() # parent crossover genes
-#         crossover_size = (len(p1.genes) // CROSSOVER_SIZE) # we will take 1/3th of genes from each parent to crossover
-#         for i in range(crossover_size):
-#             c1_genes.append(copy.deepcopy(p1.genes[i]))
-#             c2_genes.append(copy.deepcopy(p2.genes[i]))
-#             pcg1.add(p1.genes[i])
-#             pcg2.add(p2.genes[i])
-#         for i in range(len(p1.genes)): # fill rest of genes in child1 and child2
-#             if p1.genes[i] not in pcg2:
-#                 c2_genes.append(p1.genes[i])
-#             if p2.genes[i] not in pcg1:
-#                 c1_genes.append(p2.genes[i])
-        
-#         children.append(Chromosome(c1_genes))
-#         children.append(Chromosome(c2_genes))
-#     return children
- 

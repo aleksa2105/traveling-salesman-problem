@@ -2,7 +2,6 @@
 Selection of parents(which are used for creating offsprings) for next generation.
 """
 
-
 import random
 from params import *
 
@@ -12,7 +11,6 @@ class TournamentSelection:
     
     @staticmethod
     def select(population):
-        """ Select half of the population """
         selection = list()
         for _ in range(len(population)//2):
             selection.append(TournamentSelection._compete(population))
@@ -23,7 +21,7 @@ class TournamentSelection:
     def _compete(population):
         """ Pick k random chromosomes and return the best one among them """
         competitors = random.choices(population, k=TOURNAMENT_SELECTION_SIZE)
-        return min(competitors, key=lambda c: c.calc_fitness())
+        return min(competitors, key=lambda c: c.fitness)
     
     
 class RouletteSelection:
@@ -60,7 +58,7 @@ class RouletteSelection:
         Rank each chromosome based on its fitness value
         Index of rank is linked to index of chromosome 
         """
-        indices = sorted(range(len(population)), key=lambda i: population[i].calc_fitness())
+        indices = sorted(range(len(population)), key=lambda i: population[i].fitness)
         ranks = [0] * len(indices)
         for rank, i in enumerate(indices):
             ranks[i] = len(indices) - rank

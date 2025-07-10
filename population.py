@@ -5,52 +5,61 @@ from crossover import *
 
 class Population:
 
-    def __init__(self, chromosomes: list):
+    def __init__(self, chromosomes: list, generation: int):
         self.chromosomes = chromosomes
+        self.generation = generation
 
-    def get_next_population(self) -> list[Chromosome]:
+    def get_next_population(self, reset:bool) -> list[Chromosome]:
         """ Get chromosomes for next generation """
-        # select parents
         parents = TournamentSelection.select(self.chromosomes)
-        # crossover operator
         children = OX1_crossover(parents)
-        # mutate children
         self._mutate_children(children)
-        # select next population and return it
-        return self._select_population(parents, children)
+        return self._select_population(parents, children, reset)
     
     def get_best_chromosome(self):
         """ Return chromosome with lowest fitness value """
-        return min(self.chromosomes, key=lambda chromosome: chromosome.calc_fitness())
+        return min(self.chromosomes, key=lambda c: c.fitness)
     
     def _mutate_children(self, children:list[Chromosome]):
+        """ Mutate given children and calculate their fitness afterwards """
         for child in children:
             chance = random.random()
             if chance <= MUTATION_CHANCE:
                 child.displacement_mutate()
+            child.calc_fitness()
 
-    def _select_population(self, parents:list[Chromosome], children:list[Chromosome]) -> list[Chromosome]:
-        parents.extend(children)
-        total_population = parents
-        total_population_sorted = sorted(total_population, key=lambda c: c.calc_fitness())
-        rest_index = 0 # pick elite_count of elites and then continue from rest_index to pick children
-        new_population = []
+    def _select_population(self, parents:list[Chromosome], children:list[Chromosome], reset) -> list[Chromosome]:
+        total_population = parents + children
+        total_population.sort(key=lambda c: c.fitness)
+
+        new_population = list()
+
         elite_count = int(ELITISM_RATE * POPULATION_SIZE)
-        while elite_count > 0:
-            c = total_population_sorted[rest_index]
+        i = 0 
+        while elite_count > 0: # pick elite_count of elites and then continue from i to pick children
+            c = total_population[i]
             if c.age < CHROMOSOME_MAX_AGE:
                 c.age += 1
                 new_population.append(c)
                 elite_count -= 1
-            rest_index += 1
-        for i in range(rest_index, len(total_population)):
-            c = total_population_sorted[i]
+            i += 1
+        for i in range(i, len(total_population)):
+            c = total_population[i]
             if c.is_child() and len(new_population) < POPULATION_SIZE:
                 c.age += 1
                 new_population.append(c)
 
-        # assert(len(new_population) == POPULATION_SIZE)
+        if reset:
+            self._reset_population(new_population)
+
         return new_population
+    
+    @staticmethod
+    def _reset_population(sortedPopulation):
+        n = len(sortedPopulation)
+        k = int(n * RESET_RATE) # number of chromosomes to be reset
+        for i in range(n-1, n-k, -1):
+            sortedPopulation[i] = get_random_chromosome(sortedPopulation[i].genes)
 
 
 def get_starting_population() -> Population:
@@ -64,4 +73,4 @@ def get_starting_population() -> Population:
             genes.append(id)
         
     chromosomes = [get_random_chromosome(genes) for _ in range(POPULATION_SIZE)]
-    return Population(chromosomes)
+    return Population(chromosomes, 0)

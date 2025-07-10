@@ -3,30 +3,34 @@ from params import *
 from utils import *
 import random
 import copy
+from math import inf
 
 
 class Chromosome:
     """ One Chromosome represents travel between every city in its list,
         with condition that first city must also be the last one. """
 
-    def __init__(self, genes: list):
+    def __init__(self, genes: list, calc_fitness: bool):
         self.genes = genes
         self.age = 1
+        self.fitness = inf
+        if calc_fitness:
+            self.calc_fitness()
 
-    def calc_fitness(self) -> float:
+    def calc_fitness(self):
         total = 0.0
         for i in range(len(self.genes)-1):
             total += get_distance(CITIES[self.genes[i]], CITIES[self.genes[i+1]])
 
         total += get_distance(CITIES[self.genes[len(self.genes)-1]], CITIES[self.genes[0]]) # add distance between last and first 
-        return total
+        self.fitness = total
     
     def is_child(self):
         return self.age <= 1
     
     def displacement_mutate(self):
         n = len(self.genes)
-        i, j = sorted(random.sample(range(n), 2))  # i <= j
+        i, j = sorted(random.sample(range(n), 2))  # i < j
         segment = self.genes[i:j+1]
         rest = self.genes[:i] + self.genes[j+1:]
         if len(rest) == 0: # no changes, return
@@ -55,5 +59,5 @@ def get_random_chromosome(genes: list[int]) -> list[Chromosome]:
     """ Randomly shuffle genes """
     shuffled_genes = copy.deepcopy(genes)
     random.shuffle(shuffled_genes)
-    chromosome = Chromosome(shuffled_genes)
+    chromosome = Chromosome(shuffled_genes, calc_fitness=True)
     return chromosome
