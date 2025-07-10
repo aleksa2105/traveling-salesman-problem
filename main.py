@@ -33,5 +33,5 @@ if __name__ == '__main__':
         
         print("generation:", gen, "fitness:", cur_best_fitness)
     
-    print("\nBest fitness found:", fitness, "in", gen, "generations")
+    print("\nBest fitness found :", fitness, "in", gen, "generations")
     print(fitness)
