@@ -25,7 +25,7 @@ class Population:
         for child in children:
             chance = random.random()
             if chance <= MUTATION_CHANCE:
-                child.displacement_mutate()
+                child.mutate()
             child.calc_fitness()
 
     def _select_population(self, parents:list[Chromosome], children:list[Chromosome], reset) -> list[Chromosome]:

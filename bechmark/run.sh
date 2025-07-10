@@ -3,7 +3,7 @@
 
 # Testing average fitness value for TSP problem
 
-N=15 # number of runs
+N=${1:-5} # number of runs
 SUM=0
 EXEC="main.py"
 

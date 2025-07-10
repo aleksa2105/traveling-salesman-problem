@@ -28,7 +28,8 @@ class Chromosome:
     def is_child(self):
         return self.age <= 1
     
-    def displacement_mutate(self):
+    def mutate(self):
+        """ mutation based on displacement method """
         n = len(self.genes)
         i, j = sorted(random.sample(range(n), 2))  # i < j
         segment = self.genes[i:j+1]
@@ -40,13 +41,6 @@ class Chromosome:
         insert_pos = random.choice(possible_positions)
 
         self.genes = rest[:insert_pos] + segment + rest[insert_pos:]
-        
-    def mutate(self):
-        for i in range(len(self.genes)):
-            chance = random.random()
-            if chance <= MUTATION_CHANCE:
-                rand = random_list_index(len(self.genes), i)
-                self.genes[i], self.genes[rand] = self.genes[rand], self.genes[i]
     
     def __str__(self):
         ids = [str(gene) for gene in self.genes]
@@ -57,7 +51,7 @@ class Chromosome:
 
 def get_random_chromosome(genes: list[int]) -> list[Chromosome]:
     """ Randomly shuffle genes """
-    shuffled_genes = copy.deepcopy(genes)
+    shuffled_genes = list(genes)
     random.shuffle(shuffled_genes)
     chromosome = Chromosome(shuffled_genes, calc_fitness=True)
     return chromosome

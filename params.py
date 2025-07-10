@@ -1,4 +1,3 @@
-""" Define algorithm parameters here """
 
 FILE_NAME = "data/data_tsp.txt"
 NUM_GENERATIONS = 2000
@@ -7,5 +6,5 @@ TOURNAMENT_SELECTION_SIZE = 5
 MUTATION_CHANCE = 0.3
 ELITISM_RATE = 0.02
 RESET_RATE = 0.2
-CHROMOSOME_MAX_AGE = 50
+CHROMOSOME_MAX_AGE = 30
 CITIES = {}

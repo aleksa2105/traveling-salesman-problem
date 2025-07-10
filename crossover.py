@@ -1,4 +1,3 @@
-from copy import deepcopy
 from chromosome import Chromosome
 from utils import *
 from random import sample
