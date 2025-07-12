@@ -2,7 +2,6 @@ from genome import *
 from params import *
 from utils import *
 import random
-import copy
 from math import inf
 
 

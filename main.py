@@ -15,7 +15,7 @@ if __name__ == '__main__':
         else:
             reset = False
 
-        population = Population(population.get_next_population(reset), gen)
+        population = Population(population.get_next_population(reset))
         gen += 1
 
         cur_best_fitness = population.get_best_chromosome().fitness

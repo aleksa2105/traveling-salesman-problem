@@ -5,9 +5,8 @@ from crossover import *
 
 class Population:
 
-    def __init__(self, chromosomes: list, generation: int):
+    def __init__(self, chromosomes: list):
         self.chromosomes = chromosomes
-        self.generation = generation
 
     def get_next_population(self, reset:bool) -> list[Chromosome]:
         """ Get chromosomes for next generation """
@@ -73,4 +72,4 @@ def get_starting_population() -> Population:
             genes.append(id)
         
     chromosomes = [get_random_chromosome(genes) for _ in range(POPULATION_SIZE)]
-    return Population(chromosomes, 0)
+    return Population(chromosomes)

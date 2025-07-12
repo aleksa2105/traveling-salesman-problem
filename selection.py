@@ -12,7 +12,7 @@ class TournamentSelection:
     @staticmethod
     def select(population):
         selection = list()
-        for _ in range(len(population)//2):
+        for _ in range(len(population)):
             selection.append(TournamentSelection._compete(population))
         
         return selection
