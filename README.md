@@ -3,7 +3,6 @@
 📌 **Autor**: Ćurčić Aleksa  
 🎓 **Fakultet**: Univerzitet u Novom Sadu, Fakultet tehničkih nauka  
 📁 **Predmet**: Nelinearno programiranje i evolutivni algoritmi  
-🧪 **Projekat**: Broj 1 – Genetski algoritam, problem putujućeg trgovca
 
 ---
 
@@ -70,7 +69,7 @@ Algoritam koristi standardne komponente evolutivnih algoritama:
    python3 main.py
    ```
 
-3. Parametri se mogu podesiti unutar `main.py` ili preko komandne linije (ako je omogućeno).
+3. Parametri se mogu podesiti unutar fajla `params.py`.
 
 ---
 
@@ -86,3 +85,15 @@ Algoritam koristi standardne komponente evolutivnih algoritama:
 
 Kod je pisan u edukativne svrhe, uz fokus na čitljivost, proširivost i osnovne mehanizme genetskih algoritama.  
 Neki delovi implementacije (npr. heuristička inicijalizacija) su ostavljeni kao potencijalni pravci za proširenje.
+
+---
+
+## 📚 Reference
+
+- Ü. Çölük – *TSP: New Genetic Representations and Operators*, Middle East Technical University.  
+  [PDF link](https://user.ceng.metu.edu.tr/~ucoluk/research/publications/tspnew.pdf)
+
+- P. Larrañaga, J.A. Lozano – *Genetic Algorithms for the Travelling Salesman Problem: A Review of Representations and Operators*, Technical Report, University of the Basque Country, 2002.  
+  [ResearchGate link](https://www.researchgate.net/profile/Pedro-Larranaga/publication/226665831_Genetic_Algorithms_for_the_Travelling_Salesman_Problem_A_Review_of_Representations_and_Operators/links/55b7b5c808aec0e5f43841d8/Genetic-Algorithms-for-the-Travelling-Salesman-Problem-A-Review-of-Representations-and-Operators.pdf)
+
+
