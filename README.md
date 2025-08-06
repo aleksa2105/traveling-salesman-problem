@@ -24,7 +24,7 @@ The genetic algorithm uses a population-based approach with crossover, mutation,
 
 ---
 
-## Installation and Usage (For End Users)
+## Installation and Usage
 
 ### 1. Requirements
 
@@ -55,7 +55,7 @@ Results will be printed to the console.
 
 ---
 
-## 🛠️ Development & Contribution Guide (For Contributors)
+## Development & Contribution Guide (For Contributors)
 
 If you’re interested in improving or extending the project, follow these steps:
 
@@ -87,7 +87,7 @@ Use `main.py` for quick testing, or write new scripts/tests under a `benchmark/`
 
 ---
 
-## 📝 Example Parameters (`params.py`)
+## Example Parameters (`params.py`)
 
 ```python
 FILE_NAME = "data/data_tsp.txt"
@@ -102,7 +102,7 @@ CHROMOSOME_MAX_AGE = 30
 
 ---
 
-## ✅ Results
+## Results
 
 In multiple test scenarios, the algorithm consistently converges to high-quality solutions. The population reset mechanism and chromosome aging help prevent premature convergence, while the ability to switch between crossover and selection strategies supports experimentation and optimization.
 
