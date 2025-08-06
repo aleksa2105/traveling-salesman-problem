@@ -1,99 +1,119 @@
-# Genetski algoritam za problem putujućeg trgovca (TSP)
 
-📌 **Autor**: Ćurčić Aleksa  
-🎓 **Fakultet**: Univerzitet u Novom Sadu, Fakultet tehničkih nauka  
-📁 **Predmet**: Nelinearno programiranje i evolutivni algoritmi  
+# Genetic Algorithm for Solving the Travelling Salesman Problem (TSP)
 
----
-
-## 📋 Opis problema
-
-Problem putujućeg trgovca (TSP) podrazumijeva pronalaženje najkraće moguće rute koja obilazi sve date gradove tačno jednom i završava se u početnom gradu.  
-Zbog eksplozivnog rasta broja permutacija (n!), koristi se **genetski algoritam** kao heuristički pristup koji omogućava nalaženje dobrih približnih rješenja u razumnom vremenu.
+## A Python-based heuristic optimization tool for finding efficient solutions to the classic NP-hard TSP
 
 ---
 
-## 🧠 Opis rješenja
+### Introduction
 
-Algoritam koristi standardne komponente evolutivnih algoritama:
+This project implements a **Genetic Algorithm (GA)** to solve the **Travelling Salesman Problem (TSP)** — a well-known NP-hard problem in combinatorial optimization. Given a set of cities and their coordinates, the goal is to find the shortest possible route that visits each city exactly once and returns to the origin city.
 
-- **Hromozom (jedinka)**: predstavlja jednu putanju (permutaciju gradova)
-- **Populacija**: skup jedinki
-- **Selekcija**: turnirska selekcija i rulet selekcija
-- **Ukrštanje**: PMX (Partially Mapped Crossover) i OX1 (Order Crossover)
-- **Mutacija**: displacement metoda
-- **Elitizam** i **resetovanje populacije** u slučaju zastoja
+The genetic algorithm uses a population-based approach with crossover, mutation, selection, and elitism to evolve high-quality solutions over multiple generations. It is written in Python and designed to be both **educational** and **extensible**, making it useful for both students and researchers.
 
 ---
 
-## ⚙️ Parametri
+### Features
 
-| Parametar                   | Opis                                                         |
-| --------------------------- | ------------------------------------------------------------ |
-| `FILE_NAME`                 | Putanja do fajla sa gradovima                                |
-| `NUM_GENERATIONS`           | Maksimalan broj generacija                                   |
-| `POPULATION_SIZE`           | Broj jedinki u populaciji                                    |
-| `TOURNAMENT_SELECTION_SIZE` | Broj učesnika u turniru                                      |
-| `MUTATION_CHANCE`           | Vjerovatnoća mutacije djeteta                                |
-| `ELITISM_RATE`              | Procenat elitnih jedinki u novoj populaciji                  |
-| `CHROMOSOME_MAX_AGE`        | Maksimalna starost jedinke                                   |
-| `RESET_RATE`                | Procenat jedinki koje se resetuju prilikom zastoja algoritma |
+* Flexible parameter tuning via configuration file
+* Two crossover methods: PMX (Partially Mapped) and OX1 (Order Crossover)
+* Tournament and roulette wheel selection strategies
+* Displacement mutation
+* Elitism and stagnation handling through population reset
+* Modular code structure with reusable components
 
 ---
 
-## 🏗️ Struktura koda
+## Installation and Usage (For End Users)
 
-- `Chromosome`: predstavlja jednu putanju (hromozom)
-- `Population`: upravlja generacijama i jedinkama
-- `TournamentSelection` i `RouletteSelection`: selekcione strategije
-- `PMX` i `OX1`: operatori ukrštanja
-- `Mutate`: displacement mutacija
-- `helpers.py`: učitavanje podataka, nasumično generisanje jedinki, izračunavanje udaljenosti itd.
+### 1. Requirements
 
----
+* Python 3.7+
 
-## ▶️ Kako pokrenuti
+### 2. Prepare Input
 
-1. Pripremiti `.txt` fajl sa skupom gradova u formatu:
+Create a `.txt` file containing the city coordinates in the following format:
 
-   ```
-   CityID x y
-   0      22 45
-   1      41 65
-   ...
-   ```
+```
+CityID x  y
+0      22 45
+1      41 65
+...
+```
 
-2. Pokrenuti glavni program:
+### 3. Run the Algorithm
 
-   ```bash
-   python3 main.py
-   ```
+Edit `params.py` to customize parameters like population size, mutation rate, and number of generations.
 
-3. Parametri se mogu podesiti unutar fajla `params.py`.
+Then run:
 
----
+```
+python3 main.py
+```
 
-## ✅ Rezultati
-
-- Algoritam u većini testova nalazi kvalitetna približna rješenja nakon ograničenog broja generacija.
-- Reset mehanizam i starosna granica sprječavaju stagnaciju u lokalnim minimumima.
-- Dva operatora ukrštanja omogućavaju poređenje različitih strategija razvoja populacije.
+Results will be printed to the console.
 
 ---
 
-## 📌 Napomena
+## 🛠️ Development & Contribution Guide (For Contributors)
 
-Kod je pisan u edukativne svrhe, uz fokus na čitljivost, proširivost i osnovne mehanizme genetskih algoritama.  
-Neki delovi implementacije (npr. heuristička inicijalizacija) su ostavljeni kao potencijalni pravci za proširenje.
+If you’re interested in improving or extending the project, follow these steps:
+
+### 1. Clone the Repository
+
+```
+git clone https://github.com/aleksa2105/traveling-salesman-problem
+cd traveling-salesman-problem
+```
+
+### 2. Project Structure
+
+```
+.
+├── main.py                 # Entry point
+├── params.py               # Algorithm parameters
+├── chromosome.py           # Chromosome representation
+├── population.py           # Population and evolution logic
+├── selection.py            # Selection strategies
+├── crossover.py            # PMX and OX1 crossover operators
+├── genome.py               # Genome functions
+├── utils.py                # Utility functions
+└── README.md               # Project documentation
+```
+
+### 3. Run in Dev Mode
+
+Use `main.py` for quick testing, or write new scripts/tests under a `benchmark/` folder. Pull requests are welcome!
 
 ---
 
-## 📚 Reference
+## 📝 Example Parameters (`params.py`)
 
-- Ü. Çölük – *TSP: New Genetic Representations and Operators*, Middle East Technical University.  
-  [PDF link](https://user.ceng.metu.edu.tr/~ucoluk/research/publications/tspnew.pdf)
+```python
+FILE_NAME = "data/data_tsp.txt"
+NUM_GENERATIONS = 2000
+POPULATION_SIZE = 520
+TOURNAMENT_SELECTION_SIZE = 5
+MUTATION_CHANCE = 0.3
+ELITISM_RATE = 0.02
+RESET_RATE = 0.1
+CHROMOSOME_MAX_AGE = 30
+```
 
-- P. Larrañaga, J.A. Lozano – *Genetic Algorithms for the Travelling Salesman Problem: A Review of Representations and Operators*, Technical Report, University of the Basque Country, 2002.  
-  [ResearchGate link](https://www.researchgate.net/profile/Pedro-Larranaga/publication/226665831_Genetic_Algorithms_for_the_Travelling_Salesman_Problem_A_Review_of_Representations_and_Operators/links/55b7b5c808aec0e5f43841d8/Genetic-Algorithms-for-the-Travelling-Salesman-Problem-A-Review-of-Representations-and-Operators.pdf)
+---
 
+## ✅ Results
 
+In multiple test scenarios, the algorithm consistently converges to high-quality solutions. The population reset mechanism and chromosome aging help prevent premature convergence, while the ability to switch between crossover and selection strategies supports experimentation and optimization.
+
+---
+
+## 📚 References
+
+* Ü. Çölük – *TSP: New Genetic Representations and Operators*, Middle East Technical University
+  [PDF](https://user.ceng.metu.edu.tr/~ucoluk/research/publications/tspnew.pdf)
+
+* P. Larrañaga, J.A. Lozano – *Genetic Algorithms for the Travelling Salesman Problem: A Review of Representations and Operators*, 2002
+  [ResearchGate](https://www.researchgate.net/publication/226665831)
+
+---
